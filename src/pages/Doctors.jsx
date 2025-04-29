@@ -5,6 +5,7 @@ import { AppContext } from '../context/AppContext'
 const Doctors = () => {
   const { speciality } = useParams()
   const [filterDoc, setFilterDoc] = useState([])
+  const[showFilter, setShowFilter] = useState(false)
   const navigate = useNavigate()
 
   const { doctors } = useContext(AppContext)
@@ -24,7 +25,8 @@ const Doctors = () => {
     <div>
       <p className='text-gray-600'>Browse through the doctors specialist.</p>
       <div className='flex flex-col sm:flex-row items-start gap-5 mt-5 '>
-        <div className='flex flex-col gap-4 text-sm text-gray-600'>
+        <button className={`py-1 px-3 border rounded text-sm transition-all sm:hidden ${showFilter ? 'bg-primary text-white' : '' }`} onClick={()=> setShowFilter(prev => !prev)}>Filters</button>
+        <div className={`flex-col gap-4 text-sm text-gray-600 ${showFilter ?  'flex' : 'hidden sm:flex'}`}>
           <p onClick={()=> speciality === 'General physician' ? navigate('/doctors') : navigate('/docters/General physician') } className={`w-[94vw] sm:w-auto py-1.5 pl-1 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "General physician" ? "bg-blue-100 text-black" : "" }`} >General physician</p>
           <p onClick={()=>speciality === 'Gynecologist' ? navigate('/doctors') : navigate('/docters/Gynecologist') } className={`w-[94vw] sm:w-auto py-1.5 pl-1 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Gynecologist" ? "bg-blue-100 text-black" : "" }`} >Gynecologist</p>
           <p onClick={()=>speciality === 'Dermatologist' ? navigate('/doctors') : navigate('/docters/Dermatologist') } className={`w-[94vw] sm:w-auto py-1.5 pl-1 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Dermatologist" ? "bg-blue-100 text-black" : "" }`} >Dermatologist</p>
@@ -32,7 +34,7 @@ const Doctors = () => {
           <p onClick={()=>speciality === 'Neurologist' ? navigate('/doctors') : navigate('/docters/Neurologist') } className={`w-[94vw] sm:w-auto py-1.5 pl-1 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Neurologist" ? "bg-blue-100 text-black" : "" }`} >Neurologist</p>
           <p onClick={()=>speciality === 'Gastroenterologist' ? navigate('/doctors') : navigate('/docters/Gastroenterologist') } className={`w-[94vw] sm:w-auto py-1.5 pl-1 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Gastroenterologist" ? "bg-blue-100 text-black" : "" }`} >Gastroenterologist</p>
         </div>
-        <div className='grid grid-cols-5 gap-4 pt-1.5 gap-y-6'>
+        <div className='w-full grid grid-cols-auto gap-4 pt-5 gap-y-6 px-3 sm:px-0'>
           {
             filterDoc.map((item, index) => (
               <div onClick={() => navigate(`/appointment/${item._id}`)} className='border border-x-blue-300 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500' key={index}>
